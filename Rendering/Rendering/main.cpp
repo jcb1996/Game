@@ -4,6 +4,9 @@
 #include "Collision.hpp"
 #include <iostream>
 
+int x; //Used to store copies of sprite location if collision() == true
+int y;
+
 int main()
 {
 	//Create window, and limit frame rate
@@ -130,81 +133,85 @@ int main()
 		}
 
 //-----------------------------------MOVEMENT----------------------------------------
-		//Used to store the character's position if collision happens
-		int x = sprite.getPosition().x;
-		int y = sprite.getPosition().y;
 
 		if(sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		{
-			//saveMovement(sprite.getPosition().x, sprite.getPosition().y);
-			//Check for collision
-			if(collision(spritePosition, backVector, housePosition, houseVector) == false)
+			//Change to stepping sprite
+			Sleep(250);
+			sprite.setTextureRect(back);
+			sprite.move(0, -24);
+			//Redeclaring the collision textures
+			sf::Vector2i spritePosition(sprite.getPosition());
+			sf::Vector2i housePosition(house.getPosition());
+			if(collision(spritePosition, backVector, housePosition, houseVector) == true)
 			{
-				//Change to stepping sprite
-				Sleep(250);
-				sprite.setTextureRect(back);
-				sprite.move(0, -24);
-				footsteps.play();
+				sprite.move(0, 24);
+				bump.play();
 			}
 			else
 			{
-			bump.play();
+				footsteps.play();
 			}
 		}
 
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		{
-			//Check for collision
-			if(collision(spritePosition, frontVector, housePosition, houseVector) == false)
+			//Change to stepping sprite
+			Sleep(250);
+			sprite.setTextureRect(front);
+			sprite.move(0, 24);
+			//Redeclaring the collision textures
+			sf::Vector2i spritePosition(sprite.getPosition());
+			sf::Vector2i housePosition(house.getPosition());
+			if(collision(spritePosition, frontVector, housePosition, houseVector) == true)
 			{
-				//Change to stepping sprite
-				sprite.setTextureRect(frontLeft);
-				sprite.move(0, 12);
-				Sleep(125);
-				sprite.setTextureRect(front);
-				sprite.move(0, 12);
-				footsteps.play();
-				Sleep(125);
+				sprite.move(0, -24);
+				bump.play();
 			}
 			else
 			{
-			bump.play();
+				footsteps.play();
 			}
 		}
 
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 		{
-			//Check for collision
-			if(collision(spritePosition, rightVector, housePosition, houseVector) == false)
+			//Change to stepping sprite
+			Sleep(250);
+			sprite.setTextureRect(right);
+			sprite.move(19, 0);
+			//Redeclaring the collision textures
+			sf::Vector2i spritePosition(sprite.getPosition());
+			sf::Vector2i housePosition(house.getPosition());
+			if(collision(spritePosition, leftVector, housePosition, houseVector) == true)
 			{
-				//Change to stepping sprite
-				Sleep(250);
-				sprite.setTextureRect(right);
-				sprite.move(19, 0);
-				footsteps.play();
+				sprite.move(-19, 0);
+				bump.play();
 			}
 			else
 			{
-			bump.play();
+				footsteps.play();
 			}
 		}
 
 		else if(sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 		{
-			//Check for collision
-			if(collision(spritePosition, leftVector, housePosition, houseVector) == false)
+			//Change to stepping sprite
+			Sleep(250);
+			sprite.setTextureRect(left);
+			sprite.move(-19, 0);
+			//Redeclaring the collision textures
+			sf::Vector2i spritePosition(sprite.getPosition());
+			sf::Vector2i housePosition(house.getPosition());
+			if(collision(spritePosition, rightVector, housePosition, houseVector) == true)
 			{
-				//Change to stepping sprite
-				Sleep(250);
-				sprite.setTextureRect(left);
-				sprite.move(-19, 0);
-				footsteps.play();
+				sprite.move(19, 0);
+				bump.play();
 			}
 			else
 			{
-				bump.play();
+				footsteps.play();
 			}
-
 		}
 
 		//Draw sequence
